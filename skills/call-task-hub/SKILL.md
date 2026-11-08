@@ -1,60 +1,44 @@
 ---
 name: call-task-hub
-description: Turn a meeting transcript into actions, decisions and open questions with owners, due dates and supporting quotes, then hand them off as Linear issues or Slack posts through the user's own connectors. Use when the user shares or points to a call transcript (pasted text, a file, or a Notion page) and wants tasks, a recap, tickets or follow-up messages, or asks to open Call Task Hub.
+description: Turn a meeting transcript into actions, decisions and open questions. Review owners and dates, then draft Slack posts or Linear issues for approval.
 ---
 
-# Call Task Hub
+# Call Task Hub companion instructions
 
-Work through these steps in order. Use the user's own connectors. Every write to Linear or Slack waits for the user's explicit yes on the exact text and destination.
+Use these steps in a compatible assistant host. Use the user's connected accounts. Each Slack post or Linear issue needs approval of the exact text and destination.
 
-## 1. Get the transcript
+## 1. Read the transcript
 
-- Pasted text or an attached file: use it as given.
-- A Notion page: search the user's Notion connector by title or date, show the page title you found, and read it.
-- A Notion page with no Notion connector: tell the user to connect Notion in Claude's connector settings, or paste the text.
+Use pasted text, an attached file or a connected Notion page. For Notion, find the page by title or date and show its title before reading it. Offer pasted text when connector setup is still pending.
 
-Ask which speaker is the user when the transcript does not say. Call that person "You" from here on.
+Confirm the meeting date and which speaker is the user. Refer to that speaker as "You".
 
 ## 2. Extract the items
 
-Find every action, decision and open question. Skip small talk and add nothing the transcript does not say.
+Use statements supported by the transcript. Keep each item short:
 
-- **text**: an imperative for actions, a plain statement for decisions, the question itself for questions. At most 16 words.
-- **owner**: the person responsible, exactly as named, or unassigned.
-- **due**: a date resolved from the meeting date when one is said. "Thursday" is the coming Thursday after the meeting, "next Thursday" one week later, "tomorrow" the day after, "next week" the Friday of the following week. Decisions have no due date.
-- **quote**: the speaker and the exact sentence behind the item, at most 30 words.
+- **Type:** action, decision or open question.
+- **Text:** up to 16 words. Use an action phrase, a decision statement or the question itself.
+- **Owner:** the name given in the transcript, or `unassigned`.
+- **Due date:** resolve a stated deadline from the meeting date. Leave the date empty for decisions and items with an unstated deadline.
+- **Quote:** the speaker and an exact supporting quote, up to 30 words.
 
-## 3. Show the list
+Use these date rules: "Thursday" means the coming Thursday after the meeting; "next Thursday" means the following Thursday; "tomorrow" means the next day; "next week" means Friday of the following week.
 
-One line per item, grouped as Overdue, Today, Next 7 days, Later, No due date, Decisions, Open questions. Each line: type, text, owner, due date. Put the user's own items first within each group. End with a one-sentence summary of the call.
+## 3. Show the results
 
-## 4. Hand off, on request
+Group items by Overdue, Today, Next 7 days, Later, Undated, Decisions and Open questions. Put the user's items first within each group. Show type, text, owner and date. Finish with a one-sentence meeting summary.
 
-**Linear issue.** Draft the title, team, priority and assignee, plus this body:
+## 4. Prepare a handoff
 
-```
-## Context
-<the item>. Raised in <call name> on <date>.
-> <speaker>: "<quote>"
+For Linear, draft a title, team, priority and assignee. Include context, the meeting date, the supporting quote, a link to the notes and three to five acceptance criteria. Keep a Design section available for relevant links.
 
-## Documentation
-- Call notes: <call name>
+For Slack, draft the chosen item or a recap with decisions, actions, owners, dates and open questions.
 
-## Design
--
-
-## Acceptance criteria
-- [ ] <3 to 5 testable criteria, one sentence each>
-```
-
-Show the draft, then create it with the Linear connector after the user confirms.
-
-**Slack post.** One item: `*Action* from <call>: <text>` with owner, due date and the quote. A recap lists Decisions, Actions (owner, due) and Open questions. Show the draft and the channel, then post with the Slack connector after the user confirms.
-
-When a connector is missing, name it and say where to connect it. Offer the draft as text to copy.
+Show the complete draft and destination. Send or create it after the user approves. When account setup is pending, provide text to copy and explain which connector to configure.
 
 ## 5. Open the app
 
-The companion HTML is `index.html` at the root of this standalone repository. If you copy this skill elsewhere, also copy the HTML to a known location and use that path. Check that the file exists before offering to open or publish it. If only this instruction file was copied, ask the user to obtain the app from the repository; do not invent the missing file. If the user has it, and where Claude can publish artifacts, publish that file as an artifact and declare the `sample` capability so its "Extract with Claude" button works. The app opens on an invented sample workspace, and its Slack and Linear buttons run in demo mode.
+Use `index.html` at the repository root. Check that the file is present, then open it in a browser or supply it to a compatible Claude artifact host. The optional Claude extraction button requires the host's `sample` capability.
 
-
+The app starts with fictional data. Its Slack and Linear buttons simulate a handoff. Real handoffs use connected tools through this assistant workflow.

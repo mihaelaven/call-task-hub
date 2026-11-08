@@ -1,38 +1,42 @@
 # Call Task Hub
 
-![Call Task Hub browser preview](docs/preview.png)
+Turn a meeting transcript into actions, decisions and open questions. Review owners and dates, then prepare a follow-up.
 
+![Call Task Hub preview](docs/preview.png)
 
-**Browser:** usable local demo. **Claude artifact:** optional AI extraction. **Slack/Linear integrations:** simulated in the app.
+**Status: working local demo.** Slack and Linear buttons simulate a handoff. Claude features require a compatible artifact host.
 
 ## Try it
 
-1. Open `index.html` in a browser. It starts with fictional calls and tasks.
-2. Use **Add transcript**, supply speaker-labelled lines, the meeting date, and your name.
-3. Extract locally, review owners and dates, and edit the results.
-4. Open a Slack or Linear composer to draft and copy text. Send/create buttons change the local demo state only.
+1. Download this repository and open `index.html` in your browser.
+2. Select **Add transcript**. Enter speaker names, the meeting date and your name.
+3. Extract the items. Review and edit each result.
+4. Open a Slack or Linear draft and copy the text.
 
-For a reproducible extraction example, see [the fixture](examples/call-task-hub.json). Data is saved in this browser's local storage.
+The starting calls and tasks are fictional. Changes are saved in this browser.
 
-## Optional Claude artifact
+## Optional connected features
 
-Supply this HTML file to a Claude host that can create artifacts and request the `sample` capability. When granted, the app exposes **Extract with Claude** and acceptance-criteria drafting. These capabilities are host-dependent and have not been exercised in the validation record.
+A compatible Claude artifact host can enable **Extract with Claude** through its `sample` capability. The [companion instructions](skills/call-task-hub/SKILL.md) explain how an assistant can draft real Slack posts or Linear issues using your connected accounts. Review the exact text and destination before approving a handoff.
 
-Publishing the artifact does not make Slack or Linear buttons live. For real handoffs, use the [companion skill](skills/call-task-hub/SKILL.md) with connected tools and review the proposed text and destination.
+## Limitations and testing
 
-## Limitations and validation
+- Local extraction uses a small set of English phrases. Review implied actions, owners and dates carefully.
+- Slack and Linear buttons update the demo state. Real handoffs use the companion instructions and connected tools.
+- Saved data stays in one browser. Keep a separate copy of important transcripts and results.
+- Local extraction tests pass. Claude extraction, acceptance-criteria drafting and real Slack/Linear handoffs await testing.
+- Broader browser and mobile checks remain planned.
 
-Keyword extraction recognises a limited set of English phrases and speaker-labelled lines. It can miss implied actions and must be reviewed. Demo ticket identifiers are invented. Local data has no team sync or server backup.
+See [testing details](docs/validation.md) and the [example transcript](examples/call-task-hub.json).
 
-Automated checks cover relative dates, decisions without due dates, and negative statements; browser smoke checks are recorded in [validation](docs/validation.md).
+## Run the tests
 
+With Node.js 20 or newer, run:
 
-## Standalone repository
+```sh
+node --test tests/app.test.cjs
+```
 
-This app was extracted from PM Toolkit. It contains its own HTML, screenshot, license, companion instructions and relevant examples. There is no build step and no package installation required to open the page. Optional Google Fonts requests need an internet connection; system fonts are the fallback.
+## About this copy
 
-For a local web address, run `python3 -m http.server 8000` in this folder and open [the app](http://localhost:8000). This local server does not enable any connected feature.
-
-Companion instructions are included as files for a compatible assistant host. They do not install themselves, connect accounts, or schedule runs. Review their proposed external writes before authorizing them.
-
-Run the inherited offline regression checks with `node --test tests/app.test.cjs` (Node.js 20 or newer). No model calls or credentials are needed.
+This app comes from PM Toolkit. See [origin and license](ORIGIN.md). Google Fonts loads when internet access is available; system fonts provide a fallback.
